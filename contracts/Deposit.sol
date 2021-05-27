@@ -21,15 +21,13 @@ contract Deposit {
   // 存款单数据库
   mapping (address => mapping (uint => DepositSlip)) public depositSlips;
 
+  // 事件声明
   event Log(string);
 
   // 以太坊定期存币
   function saveETH(uint expireDate)
   public payable returns (uint) {
     uint index = addrCounts[msg.sender];
-    // depositSlips[msg.sender][index].createTime = block.timestamp;
-    // depositSlips[msg.sender][index].expireDate = expireDate;
-    // depositSlips[msg.sender][index].amount = msg.value;
     depositSlips[msg.sender][index] = DepositSlip({
       createTime: block.timestamp,
       expireDate: expireDate,
