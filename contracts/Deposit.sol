@@ -23,6 +23,7 @@ contract Deposit {
 
   receive()
   payable external {
-    emit Log("get eth");
+    payable(msg.sender).transfer(msg.value);
+    emit Log("don't fuck me");
   }
 }
