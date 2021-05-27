@@ -15,27 +15,23 @@ contract Deposit {
     bool valid;
   }
 
-  // 索引计数器
-  mapping (address => uint) addrCounts;
-
-  // 存款单数据库
-  mapping (address => mapping (uint => DepositSlip)) public depositSlips;
-
   // 事件声明
   event Log(string);
+
+  // 存款单数据库
+  mapping (address => DepositSlip[]) public depositSlips;
 
   // 以太坊定期存币
   function saveETH(uint expireDate)
   public payable returns (uint) {
-    uint index = addrCounts[msg.sender];
-    depositSlips[msg.sender][index] = DepositSlip({
+    DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
+    myDepositSlips.push(DepositSlip({
       createTime: block.timestamp,
       expireDate: expireDate,
       amount: msg.value,
       valid: true
-    });
-    addrCounts[msg.sender]++;
-    return index;
+    }));
+    return myDepositSlips.length - 1;
   }
 
   // 赎回以太坊定期存币
