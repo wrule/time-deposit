@@ -7,7 +7,13 @@ contract Deposit {
 
   fallback()
   external payable {
-    emit Log("get other");
+    // emit Log("get other");
+  }
+
+  // 进行以太坊定期存款
+  function saveETH()
+  public payable {
+
   }
 
   receive()
