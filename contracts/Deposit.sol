@@ -73,7 +73,12 @@ contract Deposit {
     DepositSlip storage depositSlip = myDepositSlips[index];
     require(depositSlip.valid, "Invalid deposit slip");
     require(block.timestamp >= depositSlip.expireDate, "The deposit slip is not yet due");
-    payable(msg.sender).transfer(depositSlip.amount);
+    if (depositSlip.isETH) {
+      payable(msg.sender).transfer(depositSlip.amount);
+    } else {
+      TestCoin coin = TestCoin(depositSlip.contractAddr);
+      coin.transfer(msg.sender, depositSlip.amount);
+    }
     depositSlip.valid = false;
     return true;
   }
