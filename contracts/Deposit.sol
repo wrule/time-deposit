@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
+import "./TestCoin.sol";
+
 // 定期存币合约
 contract Deposit {
   // 存款单结构
@@ -46,6 +48,17 @@ contract Deposit {
     depositSlip.valid = false;
     return true;
   }
+
+
+  // 代币定期存币
+  function saveTEST(uint value, uint expireDate)
+  public payable returns (uint) {
+    TestCoin coin = TestCoin(0x28239aB476ca691312817a092de89E96EaaC20aE);
+    bool result = coin.transferFrom(address(this), msg.sender, value);
+    require(result);
+    return 0;
+  }
+
 
   receive()
   payable external {
