@@ -15,6 +15,10 @@ contract Deposit {
     uint amount;
     // 是否有效
     bool valid;
+    // 是否是ETH，否则为ERC20代币
+    bool isETH;
+    // ERC20代币合约地址
+    address contractAddr;
   }
 
   // 事件声明
@@ -31,7 +35,9 @@ contract Deposit {
       createTime: block.timestamp,
       expireDate: expireDate,
       amount: msg.value,
-      valid: true
+      valid: true,
+      isETH: true,
+      contractAddr: address(0)
     }));
     return myDepositSlips.length - 1;
   }
@@ -49,14 +55,26 @@ contract Deposit {
     return true;
   }
 
+  address constant TESTAddr = address(0x28239aB476ca691312817a092de89E96EaaC20aE);
 
   // 代币定期存币
   function saveTEST(uint value, uint expireDate)
   public payable returns (uint) {
-    TestCoin coin = TestCoin(0x28239aB476ca691312817a092de89E96EaaC20aE);
-    bool result = coin.transferFrom(address(this), msg.sender, value);
-    require(result);
-    return 0;
+    TestCoin coin = TestCoin(TESTAddr);
+    require(
+      coin.transferFrom(address(this), msg.sender, value),
+      "failure"
+    );
+    DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
+    myDepositSlips.push(DepositSlip({
+      createTime: block.timestamp,
+      expireDate: expireDate,
+      amount: value,
+      valid: true,
+      isETH: false,
+      contractAddr: TESTAddr
+    }));
+    return myDepositSlips.length - 1;
   }
 
 
