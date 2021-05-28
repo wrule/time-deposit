@@ -3,7 +3,7 @@ const TestCoin = artifacts.require('TestCoin');
 const Test = artifacts.require('Test');
 
 module.exports = (deployer) => {
-  // deployer.deploy(Deposit);
+  deployer.deploy(Deposit);
   // deployer.deploy(TestCoin);
-  deployer.deploy(Test);
+  // deployer.deploy(Test);
 };
