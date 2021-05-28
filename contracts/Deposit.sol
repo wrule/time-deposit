@@ -42,19 +42,6 @@ contract Deposit {
     return myDepositSlips.length - 1;
   }
 
-  // 赎回以太坊定期存币
-  function redemptionETH(uint index)
-  public returns (bool) {
-    DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
-    require(index < myDepositSlips.length, "Deposit slip does not exist");
-    DepositSlip storage depositSlip = myDepositSlips[index];
-    require(depositSlip.valid, "Invalid deposit slip");
-    require(block.timestamp >= depositSlip.expireDate, "The deposit slip is not yet due");
-    payable(msg.sender).transfer(depositSlip.amount);
-    depositSlip.valid = false;
-    return true;
-  }
-
   address constant TESTAddr = address(0x28239aB476ca691312817a092de89E96EaaC20aE);
 
   // 代币定期存币
@@ -77,6 +64,19 @@ contract Deposit {
     return myDepositSlips.length - 1;
   }
 
+
+  // 赎回以太坊定期存币
+  function redemptionETH(uint index)
+  public returns (bool) {
+    DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
+    require(index < myDepositSlips.length, "Deposit slip does not exist");
+    DepositSlip storage depositSlip = myDepositSlips[index];
+    require(depositSlip.valid, "Invalid deposit slip");
+    require(block.timestamp >= depositSlip.expireDate, "The deposit slip is not yet due");
+    payable(msg.sender).transfer(depositSlip.amount);
+    depositSlip.valid = false;
+    return true;
+  }
 
   receive()
   payable external {
