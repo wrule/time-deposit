@@ -42,12 +42,14 @@ contract Deposit {
     return myDepositSlips.length - 1;
   }
 
-  address constant TESTAddr = address(0x28239aB476ca691312817a092de89E96EaaC20aE);
-
   // 代币定期存币
-  function saveTEST(uint value, uint expireDate)
+  function saveTEST(
+    uint value,
+    uint expireDate,
+    address contractAddr
+  )
   public payable returns (uint) {
-    TestCoin coin = TestCoin(TESTAddr);
+    TestCoin coin = TestCoin(contractAddr);
     require(
       coin.transferFrom(address(this), msg.sender, value),
       "failure"
@@ -59,7 +61,7 @@ contract Deposit {
       amount: value,
       valid: true,
       isETH: false,
-      contractAddr: TESTAddr
+      contractAddr: contractAddr
     }));
     return myDepositSlips.length - 1;
   }
