@@ -66,7 +66,7 @@ contract Deposit {
 
 
   // 赎回以太坊定期存币
-  function redemptionETH(uint index)
+  function redemption(uint index)
   public returns (bool) {
     DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
     require(index < myDepositSlips.length, "Deposit slip does not exist");
