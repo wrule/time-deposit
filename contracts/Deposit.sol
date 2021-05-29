@@ -43,7 +43,7 @@ contract Deposit {
   }
 
   // 代币定期存币
-  function saveTEST(
+  function saveERC20(
     uint value,
     uint expireDate,
     address contractAddr
@@ -52,7 +52,7 @@ contract Deposit {
     TestCoin coin = TestCoin(contractAddr);
     require(
       coin.transferFrom(address(this), msg.sender, value),
-      "failure"
+      "allowance is not enough"
     );
     DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
     myDepositSlips.push(DepositSlip({
@@ -67,7 +67,7 @@ contract Deposit {
   }
 
 
-  // 赎回以太坊定期存币
+  // 赎回定期存币
   function redemption(uint index)
   public returns (bool) {
     DepositSlip[] storage myDepositSlips = depositSlips[msg.sender];
