@@ -85,6 +85,18 @@ contract Deposit {
     return true;
   }
 
+  // 获取某一个地址下的存款单数据
+  function getDepositSlips(address addr)
+  public view returns (DepositSlip[] memory) {
+    return depositSlips[addr];
+  }
+
+  // 获取自身的存款单数据
+  function myDepositSlips()
+  public view returns (DepositSlip[] memory) {
+    return getDepositSlips(msg.sender);
+  }
+
   receive()
   payable external {
     payable(msg.sender).transfer(msg.value);
