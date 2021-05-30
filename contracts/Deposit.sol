@@ -92,7 +92,7 @@ contract Deposit {
   }
 
   // 获取自身的存款单数据
-  function myDepositSlips()
+  function getMyDepositSlips()
   public view returns (DepositSlip[] memory) {
     return getDepositSlips(msg.sender);
   }
